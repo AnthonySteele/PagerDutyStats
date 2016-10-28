@@ -11,7 +11,13 @@ namespace PagerDutyStats
                 date = date.AddDays(1);
             }
 
-            return date;
+            return date.Date;
+        }
+
+        public static DateRange NextWeekend(DateRange range)
+        {
+            var nextFriday = NextFriday(range.End);
+            return MakeWeekendRange(nextFriday);
         }
 
         public static DateRange MakeWeekendRange(DateTime startDate)

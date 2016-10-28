@@ -27,16 +27,18 @@ namespace PagerDutyStats
         {
             try
             {
-                var start = DateTime.Today.AddDays(-10);
+                var monthsBack = startParams.MonthsBack ?? 6;
+                var start = DateTime.Today.AddMonths(- monthsBack);
                 start = DateFunctions.NextFriday(start);
-                var weekend = DateFunctions.MakeWeekendRange(start);
+                var startWeekend = DateFunctions.MakeWeekendRange(start);
+                Console.WriteLine($"Starting at {startWeekend}");
 
                 var pagerDutyClient = new PagerDutyClient(startParams);
                 var incidentCounter = new IncidentCounter(pagerDutyClient);
 
-                var count = await incidentCounter.CountIncidents(weekend);
-                Console.WriteLine("Count is " + count);
+                await ReadWeekends(incidentCounter, startWeekend);
 
+                Console.WriteLine("Done");
                 return 0;
             }
             catch (Exception ex)
@@ -47,5 +49,15 @@ namespace PagerDutyStats
             }
         }
 
+        private static async Task ReadWeekends(IncidentCounter incidentCounter, DateRange range)
+        {
+            while (range.End <= DateTime.Today)
+            {
+                var count = await incidentCounter.CountIncidents(range);
+                Console.WriteLine($"Count at {range} is {count}");
+
+                range = DateFunctions.NextWeekend(range);
+            }
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 
 namespace PagerDutyStats
@@ -17,9 +18,13 @@ namespace PagerDutyStats
             var data = await _client.GetDataForRange(range);
 
             var jsonResponse = JObject.Parse(data);
-            var incidents = (JArray)jsonResponse.GetValue("incidents");
+            var total = jsonResponse.Value<int>("total");
 
-            return incidents.Count;
+            //var incidents = (JArray)jsonResponse.GetValue("incidents");
+            //var hasMore = jsonResponse.Value<bool>("more");
+            //Console.WriteLine($"Range: {range}. Incidents: {incidents.Count} of {total}, more: {hasMore}");
+
+            return total;
         }
     }
 }

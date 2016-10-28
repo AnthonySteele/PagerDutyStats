@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -39,7 +40,7 @@ namespace PagerDutyStats
             var since = DateFunctions.AsIso8601Date(range.Start);
             var until = DateFunctions.AsIso8601Date(range.End);
 
-            var requestParams = $"since={since}&until={until}&team_ids[]={_parameters.TeamId}&time_zone=UTC";
+            var requestParams = $"since={since}&until={until}&service_ids[]={_parameters.Services}&time_zone=UTC&total=true";
 
             using (var client = new HttpClient())
             {

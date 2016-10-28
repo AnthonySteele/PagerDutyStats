@@ -7,7 +7,10 @@ namespace PagerDutyStats
         [Option("ApiKey", HelpText = "The pager duty Api key", Required = true)]
         public string ApiKey { get; set; }
 
-        [Option("TeamId", HelpText = "The id of the team to read", Required = true)]
-        public string TeamId { get; set; }
+        [Option("Services", HelpText = "The services to read", Required = true)]
+        public string Services { get; set; }
+
+        [Option("MonthsBack", HelpText = "How many monthss back")]
+        public int? MonthsBack { get; set; }
     }
 }
