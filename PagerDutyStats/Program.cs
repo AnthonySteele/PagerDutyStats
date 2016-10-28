@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using CommandLine;
 
@@ -19,7 +21,7 @@ namespace PagerDutyStats
             task.Wait();
             var result = task.Result;
 
-            Console.ReadLine();
+            //Console.ReadLine();
             return result;
         }
 
@@ -51,13 +53,19 @@ namespace PagerDutyStats
 
         private static async Task ReadWeekends(IncidentCounter incidentCounter, DateRange range)
         {
+            var lines = new List<string>();
+
             while (range.End <= DateTime.Today)
             {
                 var count = await incidentCounter.CountIncidents(range);
                 Console.WriteLine($"Count at {range} is {count}");
+                var startDate = DateFunctions.AsIso8601Date(range.Start);
+                lines.Add($"{startDate}, {count}");
 
                 range = DateFunctions.NextWeekend(range);
             }
+
+            File.WriteAllLines("out.txt", lines);
         }
     }
 }
