@@ -1,6 +1,6 @@
 # PagerDutyStats
 
-This simple pogram uses the pagerDuty Api to anwer the question: How many times are these services called out over per weekend, over time.
+This simple program uses the [PagerDuty Api](https://v2.developer.pagerduty.com/page/api-reference) to anwer the question: How many times are these services called out over per weekend, over time.
 Where the weekend is arbitrarily defined as 5pm Friday tyo 9am Monday.
 
 CVS data is written to file.
