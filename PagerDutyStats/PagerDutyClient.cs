@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -37,16 +36,27 @@ namespace PagerDutyStats
 
         public async Task<string> GetDataForRange(DateRange range)
         {
-            var since = DateFunctions.AsIso8601Date(range.Start);
-            var until = DateFunctions.AsIso8601Date(range.End);
-
-            var requestParams = $"since={since}&until={until}&service_ids[]={_parameters.Services}&time_zone=UTC&total=true";
+            var requestParams = GenerateRequestParams(range);
 
             using (var client = new HttpClient())
             {
                 var request = MakeRequest(_parameters.ApiKey, "incidents?" + requestParams);
                 return await GetSuccessResponseBody(client, request);
             }
+        }
+
+        private string GenerateRequestParams(DateRange range)
+        {
+            var since = DateFunctions.AsIso8601Date(range.Start);
+            var until = DateFunctions.AsIso8601Date(range.End);
+
+            var resultParams = $"since={since}&until={until}&time_zone=UTC&total=true";
+            var ids = _parameters.Services.Split(',');
+            foreach (var id in ids)
+            {
+                resultParams += $"&service_ids[]={id}";
+            }
+            return resultParams;
         }
 
         private static HttpRequestMessage MakeRequest(string apiKey, string path)

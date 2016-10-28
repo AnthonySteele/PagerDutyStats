@@ -31,7 +31,7 @@ namespace PagerDutyStats
                 var start = DateTime.Today.AddMonths(- monthsBack);
                 start = DateFunctions.NextFriday(start);
                 var startWeekend = DateFunctions.MakeWeekendRange(start);
-                Console.WriteLine($"Starting at {startWeekend}");
+                Console.WriteLine($"Starting at {startWeekend} for services {startParams.Services}");
 
                 var pagerDutyClient = new PagerDutyClient(startParams);
                 var incidentCounter = new IncidentCounter(pagerDutyClient);
