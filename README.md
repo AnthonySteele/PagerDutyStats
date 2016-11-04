@@ -5,8 +5,12 @@ Where the weekend is arbitrarily defined as 5pm Friday to 9am Monday.
 
 CSV data is written to file `out.txt`, containing pairs of `StartDate, Count` for each weekend in the range.
 
+## Example usage
+
+`PagerDutyStats.exe --ApiKey abcdef1234 --Services AB2ABCD,AB2DEFG,AB2HIJK --MonthsBack 1`
+
 Command line options are:
 
  * `--ApiKey` An Api key for the PagerDuty v2 Api. Required.  
-* `--Services` A comma-separated list of services to read. Required.  
-* `--MonthsBack` Number of months to go back. Optional, default is 6.   
+ * `--Services` A comma-separated list of services to read. Required.  
+ * `--MonthsBack` Number of months to go back. Optional, default is 6.   
